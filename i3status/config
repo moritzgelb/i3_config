@@ -1,0 +1,98 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+	color_good = "#458B00"
+        color_bad = "#7F0000"
+        color_degraded = "#7F0000"
+        interval = 1
+}
+
+#order += "ipv6"
+#order += "run_watch DHCP"
+order += "volume master"
+order += "ethernet eth0"
+order += "wireless wlan0"
+order += "run_watch VPN"
+order += "cpu_usage"
+order += "cpu_temperature 1"
+order += "battery 0"
+order += "battery 1"
+order += "disk /"
+#order += "load"
+order += "tztime tokyo"
+order += "tztime local"
+
+
+
+wireless wlan0 {
+        format_up = " WLan (%quality %essid) %ip "
+        format_down = " no WLan "
+}
+
+ethernet eth0 {
+        # if you use %speed, i3status requires root privileges
+        format_up = " Cable %ip (%speed) "
+        format_down = " no cable "
+}
+
+battery 0 {
+        format = " int %status %percentage %remaining "
+        path = "/sys/class/power_supply/BAT0/uevent"
+}
+
+battery 1 {
+	format = " main %status %percentage %remaining "
+	format_down = "REMOVED"
+	status_chr = "⚡ CHARGING" 
+	status_full = "full" 
+	path = "/sys/class/power_supply/BAT1/uevent"
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPN {
+        format_down = " no VPN "
+        pidfile = "  /var/run/vpnc/pid"
+}
+
+tztime tokyo {
+	format = "  Tokyo %d.%m.%Y %H:%M  "
+	timezone = "Asia/Tokyo"
+}
+
+tztime local {
+        format = "  %d.%m.%Y %H:%M  "
+}
+
+load {
+        format = "Load %1min"
+}
+
+disk "/" {
+        format = " Disk %avail/%total "
+}
+
+volume master {
+        format = " Vol %volume "
+        format_muted = " - muted - "
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+cpu_usage {
+  format = " CPU Usage %usage "
+}
+ 
+cpu_temperature 1 {
+  format = " CPU Temp %degrees °C "
+}
